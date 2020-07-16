@@ -74,7 +74,7 @@ class Lexer(val fileName: String, val text: String) {
         if (dotCount == 0) {
             return Token(TT_INT, numString.toInt())
         } else {
-            return Token(TT_FLOAT, numString.toFloat())
+            return Token(TT_FLOAT, numString.toDouble())
         }
     }
 }
