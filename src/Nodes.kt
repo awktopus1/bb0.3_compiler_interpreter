@@ -1,50 +1,50 @@
 
-open class ParentNode {
+open class CoreNode {
     open fun asString() = ""
 }
 
-class NumberNode(val token: Token<Number>) : ParentNode() {
+class NumberNode(val token: Token<Any>?) : CoreNode() {
 
-    override fun asString() = token.asString()
-
-}
-
-class StringNode(val token: Token<String>) : ParentNode() {
-
-    override fun asString() = token.asString()
+    override fun asString() = token!!.asString()
 
 }
 
-class ListNode(val elementNodes: List<ParentNode>) : ParentNode() {
+class StringNode(val token: Token<Any>?) : CoreNode() {
+
+    override fun asString() = token!!.asString()
+
+}
+
+class ListNode(val elementNodes: List<CoreNode?>) : CoreNode() {
 
     override fun asString(): String {
         var result = "["
         elementNodes.forEach {
-            result += it.asString() + ", "
+            result += it!!.asString() + ", "
         }
         return "$result]"
     }
 
 }
 
-class VarAccessNode(val varNameToken: Token<Any>) : ParentNode() {
+class VarAccessNode(val varNameToken: Token<Any>?) : CoreNode() {
 
 }
 
-class VarAssignNode(val varNameToken: Token<Any>, val valueNode: ParentNode) : ParentNode() {
+class VarAssignNode(val varNameToken: Token<Any>?, val valueNode: CoreNode) : CoreNode() {
 
 }
 
-class BinOpNode(val leftNode: ParentNode, val opToken: Token<Any>, val rightNode: ParentNode) : ParentNode() {
+class BinOpNode(val leftNode: CoreNode?, val opToken: Token<Any>?, val rightNode: CoreNode?) : CoreNode() {
 
-    override fun asString() = leftNode.asString() + ", " + opToken.asString() + ", " + rightNode.asString()
-
-}
-
-class UnaryOpNode(val opToken: Token<Any>, val node: ParentNode) : ParentNode() {
+    override fun asString() = "(" + leftNode!!.asString() + ", " + opToken!!.asString() + ", " + rightNode!!.asString() + ")"
 
 }
 
-class IfNode(val cases: ParentNode, val elseCase: ParentNode) : ParentNode() {
+class UnaryOpNode(val opToken: Token<Any>?, val node: CoreNode) : CoreNode() {
+
+}
+
+class IfNode(val cases: CoreNode?, val elseCase: CoreNode) : CoreNode() {
 
 }
