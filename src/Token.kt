@@ -33,7 +33,14 @@ const val TT_EOF          = "EOF"
 
 
 // Token class
-class Token<T>(val type: String, val value: T? = null) {
+class Token<T>(val type: String, val value: T? = null, _startPosition: Position? = null, _endPosition: Position? = null) {
+    var startPosition: Position? = null
+    var endPosition: Position? = null
+
+    init {
+        startPosition = if (_startPosition != null) _startPosition.copy() else null
+        endPosition = if (_endPosition != null) _endPosition.copy() else null
+    }
 
     fun asString(): String {
         if (value != null) {

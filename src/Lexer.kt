@@ -25,24 +25,23 @@ class Lexer(val fileName: String, val text: String) {
                 advance()
             } else if (DIGITS.contains(currentCharacter!!)) {
                 tokens.add(makeNumber())
-                advance()
             } else if (currentCharacter == '+') {
-                tokens.add(Token(TT_PLUS))
+                tokens.add(Token(TT_PLUS, _startPosition = pos))
                 advance()
             } else if (currentCharacter == '-') {
-                tokens.add(Token(TT_MINUS))
+                tokens.add(Token(TT_MINUS, _startPosition = pos))
                 advance()
             } else if (currentCharacter == '*') {
-                tokens.add(Token(TT_MUL))
+                tokens.add(Token(TT_MUL, _startPosition = pos))
                 advance()
             } else if (currentCharacter == '/') {
-                tokens.add(Token(TT_DIV))
+                tokens.add(Token(TT_DIV, _startPosition = pos))
                 advance()
             } else if (currentCharacter == '(') {
-                tokens.add(Token(TT_LPAREN))
+                tokens.add(Token(TT_LPAREN, _startPosition = pos))
                 advance()
             } else if (currentCharacter == ')') {
-                tokens.add(Token(TT_RPAREN))
+                tokens.add(Token(TT_RPAREN, _startPosition = pos))
                 advance()
             } else {
                 val char = currentCharacter
@@ -52,12 +51,14 @@ class Lexer(val fileName: String, val text: String) {
             }
         }
 
+        tokens.add(Token(TT_EOF, _startPosition = pos))
         return TokenResult(tokens, null)
     }
 
     fun makeNumber(): Token<Any> {
         var numString = ""
         var dotCount = 0
+        val startPosition = pos.copy()
 
         while (currentCharacter != null && "$DIGITS.".contains(currentCharacter!!)) {
             if (currentCharacter == '.') {
@@ -72,9 +73,9 @@ class Lexer(val fileName: String, val text: String) {
         }
 
         if (dotCount == 0) {
-            return Token(TT_INT, numString.toInt())
+            return Token(TT_INT, numString.toInt(), startPosition, pos)
         } else {
-            return Token(TT_FLOAT, numString.toDouble())
+            return Token(TT_FLOAT, numString.toDouble(), startPosition, pos)
         }
     }
 }

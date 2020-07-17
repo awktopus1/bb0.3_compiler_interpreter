@@ -12,10 +12,12 @@ fun run_bb(fileName: String, text: String): RunResult {
 
     //Generate Abstract Syntax Tree (AST)
     val parser = Parser(result.tokens)
-    result.ast = parser.parse()
+    val parseResult = parser.parse()
+    result.ast = parseResult!!.node
+    result.error = parseResult.error
 
     return result
 }
 
 
-class RunResult(val error: Error? = null, val tokens: List<Token<Any>>? = null, var ast: CoreNode? = null)
+data class RunResult(var error: Error? = null, val tokens: List<Token<Any>>? = null, var ast: CoreNode? = null)

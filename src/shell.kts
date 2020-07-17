@@ -4,9 +4,16 @@ while (true) {
 
     val result = run_bb("<stdin>", text ?: "")
 
-    if (result.error == null) {
+    val lexList = mutableListOf<String>()
+    result.tokens!!.forEach {
+        lexList.add(it.asString())
+    }
+    println(listAsString(lexList))
+    if (result.ast != null) {
         println(result.ast!!.asString())
-    } else {
+    }
+
+    if (result.error != null) {
         println(result.error!!.asString())
     }
 }

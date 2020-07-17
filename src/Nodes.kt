@@ -18,11 +18,12 @@ class StringNode(val token: Token<Any>?) : CoreNode() {
 class ListNode(val elementNodes: List<CoreNode?>) : CoreNode() {
 
     override fun asString(): String {
-        var result = "["
+        var list = mutableListOf<String>()
         elementNodes.forEach {
-            result += it!!.asString() + ", "
+            list.add(it!!.asString())
         }
-        return "$result]"
+        val result = listAsString(list)
+        return result
     }
 
 }
@@ -41,7 +42,9 @@ class BinOpNode(val leftNode: CoreNode?, val opToken: Token<Any>?, val rightNode
 
 }
 
-class UnaryOpNode(val opToken: Token<Any>?, val node: CoreNode) : CoreNode() {
+class UnaryOpNode(val opToken: Token<Any>?, val node: CoreNode?) : CoreNode() {
+
+    override fun asString() = "(" + opToken!!.asString() + ", " + node!!.asString() + ")"
 
 }
 
