@@ -16,8 +16,15 @@ fun run_bb(fileName: String, text: String): RunResult {
     result.ast = parseResult!!.node
     result.error = parseResult.error
 
+    if (result.error != null) {
+        return result
+    }
+
+    val interpreter = Interpreter()
+    result.interpreterResult = interpreter.visit(result.ast)
+
     return result
 }
 
 
-data class RunResult(var error: Error? = null, val tokens: List<Token<Any>>? = null, var ast: CoreNode? = null)
+data class RunResult(var error: Error? = null, val tokens: List<Token<Any>>? = null, var ast: CoreNode? = null, var interpreterResult: Type? = null)

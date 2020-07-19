@@ -16,4 +16,8 @@ while (true) {
     if (result.error != null) {
         println(result.error!!.asString())
     }
+
+    if (result.interpreterResult != null) {
+        println(result.interpreterResult!!.asString())
+    }
 }
